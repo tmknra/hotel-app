@@ -6,7 +6,12 @@ class Country {
     String capital
 
     static constraints = {
-        name maxSize: 255, blank: false, unique: true
-        capital maxSize: 128, blank: false
+        name maxSize: 255, blank: true, unique: true
+        capital maxSize: 128, blank: true
+    }
+
+    @Override
+    String toString() {
+        name
     }
 }

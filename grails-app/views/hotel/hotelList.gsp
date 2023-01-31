@@ -1,4 +1,4 @@
-<%@ page import="hotel.app.HotelController; org.hotelApp.Country; org.hotelApp.Hotel" %>
+<%@ page import="org.hotelApp.Country; org.hotelApp.Hotel" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +8,8 @@
 </head>
 
 <body>
-
+<a href="#list-hotel" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
+                                                            default="Skip to content&hellip;"/></a>
 
 <g:form controller="hotel" action="saveNewHotel" method="post"
         style="margin: 0 auto; width:320px; float: right; justify-content: center">
@@ -26,17 +27,15 @@
     </f:field>
     <g:submitButton name="New Hotel" class="save" style="margin: 5% 10%; width: 80%"/>
 </g:form>
-    <h1><g:message code="default.list.label" args="[entityName]"/></h1>
+<div id="list-hotel" class="content scaffold-list" role="main">
+%{--    <h1><g:message code="default.list.label" args="[entityName]"/></h1>--}%
 %{--    <g:if test="${flash.message}">--}%
 %{--        <div class="message" role="status">${flash.message}</div>--}%
 %{--    </g:if>--}%
-        <g:form controller="hotel" action="hotelList">
-            <div class="hotels">
-%{--                <g:field type="text" name="searchInput" placeholder="Search..."/>--}%
-%{--                <g:submitButton name="Search" onclick="params.setProperty('offset', 0); params.setProperty('max', 10)"/>--}%
-                    <g:include controller="hotel" action="hotelList" view="hotel/_hotelList.gsp"
-                               params="['offset': 0, 'max': 10]"/>
-            </div>
-        </g:form>
+        <
+        <div>
+            <g:include controller="hotel" action="hotelList" view="hotel/_hotelList.gsp"/>
+        </div>
+
 </body>
 </html>

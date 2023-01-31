@@ -11,14 +11,19 @@
 <a href="#list-country" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
                                                             default="Skip to content&hellip;"/></a>
 
-
 <g:form controller="country" action="saveNewCountry" method="post"
         style="margin: 0 auto; width:320px; float: right; justify-content: center">
     <f:field property="name" label="Name" required="true">
         <g:textField name="name" value=""/>
     </f:field>
-    <f:field property="capital" label="Capital" required="true">
-        <g:textField name="capital" value=""/>
+    <f:field property="country" label="Country" required="true">
+        <g:select from="${Country.list().name}" name="country"/>
+    </f:field>
+    <f:field property="rating" label="Stars" required="true">
+        <g:select from="12345" name="rating"/>
+    </f:field>
+    <f:field property="site" label="Site" required="false">
+        <g:textField name="site"/>
     </f:field>
     <g:submitButton name="New Country" class="save" style="margin: 5% 10%; width: 80%"/>
 </g:form>
@@ -27,9 +32,9 @@
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
-    <div>
-        <g:include controller="country" action="countryList" view="country/_countryList.gsp" params="['offset': 0, 'max': 10]"/>
-    </div>
+        <div>
+            <g:include controller="country" action="countryList" view="country/_countryList.gsp"/>
+        </div>
 
 </body>
 </html>
