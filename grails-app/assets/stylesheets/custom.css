@@ -55,6 +55,12 @@ th, td {
     padding: 20px;
 }
 
+.noResults {
+    padding: 3%;
+    width: 100%;
+    text-align: center;
+}
+
 .action-block {
     float: right;
     text-align: center;
@@ -81,7 +87,7 @@ th, td {
 
 .newEntity {
     margin: 0 auto;
-    width:320px;
+    width: 320px;
     float: right;
     justify-content: center
 }

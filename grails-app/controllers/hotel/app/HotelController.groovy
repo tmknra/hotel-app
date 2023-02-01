@@ -42,9 +42,7 @@ class HotelController {
             def list = Hotel.withCriteria {
                 like('country', country)
             } as List<Hotel>
-
             hotelTotal = list.size()
-
         }
         render view: 'index',
                 model:

@@ -10,7 +10,6 @@ class CountryController {
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     def index() {
-        println params
         params.max = params?.max ?: 10
         params.offset = params?.offset ?: 0
         List<Country> countries
@@ -32,7 +31,6 @@ class CountryController {
 
             countryTotal = list.size()
         }
-        println countries
         render view: 'index',
                 model:
                         [

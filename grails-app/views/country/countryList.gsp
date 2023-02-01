@@ -5,14 +5,23 @@
     <g:sortableColumn property="capital" title="Capital" titleKey="country.capital"/>
     </thead>
     <tbody>
-    <g:each in="${countryList}" var="country">
+    <g:if test="${countryList.size() != 0}">
+        <g:each in="${countryList}" var="country">
+            <tr>
+                <td>
+                    <a href="country/show/${country.id}" target="_blank">${country.name}</a>
+                </td>
+                <td>${country.capital}</td>
+            </tr>
+        </g:each>
+    </g:if>
+    <g:else>
         <tr>
-            <td>
-                <a href="country/show/${country.id}" target="_blank">${country.name}</a>
+            <td class="noResults">
+                No Results
             </td>
-            <td>${country.capital}</td>
         </tr>
-    </g:each>
+    </g:else>
     </tbody>
 </table>
 

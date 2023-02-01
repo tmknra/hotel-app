@@ -22,7 +22,7 @@
     </g:if>
     <g:else>
         <tr>
-            <td style="padding: 3%; width: 100%; text-align: center">No results</td>
+            <td class="noResults">No results</td>
         </tr>
     </g:else>
     </tbody>
