@@ -1,7 +1,6 @@
 package hotel.app
 
 import grails.gorm.transactions.Transactional
-import hotel.app.impl.CountryService
 import org.hotelApp.Country
 
 class CountryController {
@@ -10,7 +9,39 @@ class CountryController {
 
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
-    def index() {}
+    def index() {
+        println params
+        params.max = params?.max ?: 10
+        params.offset = params?.offset ?: 0
+        List<Country> countries
+        Integer countryTotal;
+        if (params.searchInput == null) {
+            countries = Country.list(params)
+            countryTotal = Country.count
+        } else {
+            def c = Country.createCriteria()
+            String pattern = '%'+ params.searchInput+'%'
+
+            countries = c.list (params) {
+                like ('name', pattern)
+            } as List<Country>
+
+            def list = Country.withCriteria {
+                like ('name', pattern)
+            } as List<Country>
+
+            countryTotal = list.size()
+        }
+        println countries
+        render view: 'index',
+                model:
+                        [
+                                countryList : countries,
+                                countryTotal: countryTotal,
+                                max         : params.max,
+                                offset      : params.offset
+                        ]
+    }
 
 
     def show(Long id) {
@@ -52,23 +83,6 @@ class CountryController {
         }
         country.save flush: true
         redirect action: 'index'
-    }
-
-
-    def countryList() {
-//        println params
-        params.max = params?.max ?: 10
-        params.offset = params?.offset ?: 0
-        def countryList = Country.list(params)
-
-        respond template: 'countryList'
-        model:
-        [
-                countryList : countryList,
-                countryTotal: Country.count,
-                max         : params.max,
-                offset      : params.offset
-        ]
     }
 
     protected void notFound() {

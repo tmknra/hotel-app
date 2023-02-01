@@ -1,9 +1,10 @@
 package hotel.app
 
 import grails.gorm.transactions.Transactional
-import hotel.app.impl.HotelService
 import org.hotelApp.Country
 import org.hotelApp.Hotel
+
+import java.util.stream.Collectors
 
 class HotelController {
 
@@ -12,6 +13,47 @@ class HotelController {
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     def index() {
+        params.max = params?.max ?: 10
+        params.offset = params?.offset ?: 0
+        List<Hotel> hotelList
+        def hotelTotal
+        if (params.searchInput == null) {
+            hotelList = Hotel.list(params)
+            hotelTotal = Hotel.count
+        } else {
+            def c = Hotel.createCriteria()
+
+            Country country = Country.findByName(params.country as String)
+            String string = params.searchInput
+            hotelList = (c.list(params as Map) {
+                eq('country', country)
+                order('rating', 'desc')
+                order('name', 'asc')
+                /*
+                     Не подхватывает метод eq(String propertyName, Object propertyValue, [ignoreCase: true/false]),
+                     не смог разобраться в причине. В используемой версии согласно документации все должно работать.
+                     Отфильтровал значения ниже через стримы.
+                 * */
+            } as List<Hotel>)
+                    .stream()
+                    .filter { hotel -> hotel.name.toLowerCase().contains(string) }
+                    .collect(Collectors.toList())
+
+            def list = Hotel.withCriteria {
+                like('country', country)
+            } as List<Hotel>
+
+            hotelTotal = list.size()
+
+        }
+        render view: 'index',
+                model:
+                        [
+                                hotelList : hotelList,
+                                hotelTotal: hotelTotal,
+                                max       : params.max,
+                                offset    : params.offset
+                        ]
     }
 
     def show(Long id) {
@@ -30,6 +72,7 @@ class HotelController {
 
     def update(Hotel hotel) {
         save(hotel)
+        redirect action: 'index'
     }
 
     def delete(Long id) {
@@ -43,50 +86,22 @@ class HotelController {
 
     @Transactional
     def save(Hotel hotel) {
-        if (hotel == null) {
+        if (hotel == null ) {
+            flash.message = "Error"
             notFound()
             return
         }
         if (hotel.hasErrors()) {
-            respond hotel.errors, view: 'create'
+            respond hotel.errors, view: 'index'
         }
         hotel.save flush: true
-        redirect action: 'index'
     }
 
-    def hotelList() {
-        println params
-        params.max = params?.max ?: 10
-        params.offset = params?.offset ?: 0
-        def hotelList
-        if (params.searchInput == null) {
-            hotelList = Hotel.list(params)
-        } else {
-            def c = Hotel.createCriteria()
-            hotelList = c.list(params) {
-                like('country', Country.findByName(params.searchInput.toString()))
-//                and {
-//                    eq('country', Country.findByName(params.country.toString()))
-//                }
-
-            }
-            println hotelList
-        }
-        println params
-        respond template: 'index'
-        model:
-        [
-                hotelList : hotelList,
-                hotelTotal: Hotel.count,
-                max       : params.max,
-                offset    : params.offset
-        ]
-    }
 
     protected void notFound() {
         request.withFormat {
             form with {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'hotel.label', default: 'Hotel'), params.id]) as Object
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'hotel.label', default: 'Hotel'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*' { render status: NOT_FOUND }

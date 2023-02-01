@@ -15,7 +15,7 @@ class Hotel {
         name maxSize: 255, blank: true, unique: 'country'
         rating min: 1, max: 5
         country blank: true
-        siteUrl blank: false , nullable: true/*, matches: 'http[s]?:\\/\\/www\\.[a-zA-Z]+\\.[a-z]{2,3}'*/
+        siteUrl nullable: true, matches: 'http[s]?:\\/\\/www\\.[\\w]+\\.[a-z]{2,3}'
     }
 
     String toString(){

@@ -4,32 +4,28 @@
 <head>
     <meta name="layout" content="public"/>
     <g:set var="entityName" value="${message(code: 'country.label', default: 'Country')}"/>
-    <title><g:message code="default.list.label" args="[entityName]"/></title>
+    <title>Countries</title>
 </head>
 
 <body>
-<a href="#list-country" class="skip" tabindex="-1"><g:message code="default.link.skip.label"
-                                                            default="Skip to content&hellip;"/></a>
-
-
-<g:form controller="country" action="saveNewCountry" method="post"
-        style="margin: 0 auto; width:320px; float: right; justify-content: center">
+<g:form class="newEntity" controller="country" action="saveNewCountry" method="post">
     <f:field property="name" label="Name" required="true">
         <g:textField name="name" value=""/>
     </f:field>
     <f:field property="capital" label="Capital" required="true">
         <g:textField name="capital" value=""/>
     </f:field>
-    <g:submitButton name="New Country" class="save" style="margin: 5% 10%; width: 80%"/>
+    <g:submitButton name="New Country" class="save"/>
 </g:form>
-<div id="list-country" class="content scaffold-list" role="main">
-    <h1><g:message code="default.list.label" args="[entityName]"/></h1>
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <div>
-        <g:include controller="country" action="countryList" view="country/_countryList.gsp" params="['offset': 0, 'max': 10]"/>
-    </div>
+
+<div class="hotel-list">
+    <g:form class="filter" controller="country" action="index" params="${[offset ?: 0, max ?: 10]}" method="get">
+%{--        <label>Choose from list:<g:select name="country" from="${Country.list().name}" noSelection="['': 'Any']"/></label>--}%
+        <label>Enter country name: <g:field type="text" name="searchInput" placeholder="Search..."/></label>
+        <g:submitButton name="Search"/>
+    </g:form>
+    <g:include view="country/countryList.gsp"/>
+</div>
 
 </body>
 </html>

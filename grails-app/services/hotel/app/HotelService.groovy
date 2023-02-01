@@ -1,13 +1,36 @@
-//package hotel.app
+package hotel.app
 
-import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
+import grails.web.servlet.mvc.GrailsParameterMap
+import org.hotelApp.Country
 import org.hotelApp.Hotel
 
-//@Transactional
-//@Service(Hotel)
-//interface HotelService {
-//    Hotel save(Hotel hotel)
-//    Hotel update(Hotel hotel)
-//    void delete(Hotel hotel)
-//}
+@Transactional
+class HotelService {
+
+    Hotel save(String name, Integer rating, String url, Country country) {
+        def hotel = new Hotel(name: name, rating: rating, siteUrl: url, country: country)
+        hotel.save()
+        hotel
+    }
+
+    Hotel save(GrailsParameterMap params) {
+        def countryName = params.get('country')
+        Country country = Country.findByName(countryName as String)
+
+        def hotel = new Hotel(name: params.name, rating: params.rating, siteUrl: params.site, country: country)
+        hotel.save()
+        hotel
+    }
+
+    Hotel update(Hotel hotel) {
+        def save = hotel.save()
+        return save
+    }
+
+    void delete(Long id) {
+        def get = Hotel.get(id)
+        get.delete()
+    }
+
+}
