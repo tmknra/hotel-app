@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    padding: 0;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navbar a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.navbar a:hover {
+    background-color: #28a745;
+    color: black;
+}
+
+.filter {
+    display: inline-block;
+    position: relative;
+    margin-top: 15%;
+}
+
+.hotel-list {
+    table-layout: fixed;
+    width: 100%;
+    text-align: center;
+}
+
+thead th:nth-child(1) {
+    width: 30%;
+}
+
+thead th:nth-child(2) {
+    width: 20%;
+}
+
+thead th:nth-child(3) {
+    width: 15%;
+}
+
+thead th:nth-child(4) {
+    width: 35%;
+}
+
+th, td {
+    padding: 20px;
+}
+
+.noResults {
+    padding: 3%;
+    width: 100%;
+    text-align: center;
+}
+
+.action-block {
+    float: right;
+    text-align: center;
+}
+
+.action-block a {
+    background-color: #9a9da0;
+    color: black;
+    border-radius: 15%;
+    padding: 15px;
+}
+
+.action-block a:hover {
+    background-color: #28a745;
+    color: #dddddd;
+    border-radius: 15%;
+    padding: 15px;
+}
+
+.save {
+    margin: 5% 10%;
+    width: 80%
+}
+
+.newEntity {
+    margin: 0 auto;
+    width: 320px;
+    float: right;
+    justify-content: center
+}

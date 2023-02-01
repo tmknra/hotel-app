@@ -27,63 +27,63 @@ pre {
 }
 
 /* customizing bootstrap nav bar */
-.navbar {
-    margin-bottom: 0px;
-    padding-right: 110px;
-}
-.navbar .container {
-    margin: 10px;
-}
-.navbar-dark a {
-    color: #ffffff !important;
-    font-size: 18px !important;
-    text-decoration: none;
-}
+/*.navbar {*/
+/*    margin-bottom: 0px;*/
+/*    padding-right: 110px;*/
+/*}*/
+/*.navbar .container {*/
+/*    margin: 10px;*/
+/*}*/
+/*.navbar-dark a {*/
+/*    color: #ffffff !important;*/
+/*    font-size: 18px !important;*/
+/*    text-decoration: none;*/
+/*}*/
 .grails-icon img {
     width: 40px;
 
 }
-.navbar-dark, .navbar-static-top {
-    background-color: #424649;
-    border: 0px;
-}
-a.navbar-brand {
-    color: white !important;
-    font-size: 19px !important;
-}
-.navbar-dark .navbar-nav>.active>a, .navbar-dark .navbar-nav>.active>a:hover, .navbar-dark .navbar-nav>.active>a:focus {
-    background-color: transparent;
-    color: white;
-}
-.navbar-nav>li.active>a {
-    color: white !important;
-}
-.navbar-nav>li>a:hover {
-    background-color: #2559a7 !important;
-    color: white !important;
-}
-.navbar-nav>li>a {
-    color: #c0d3db;
-}
-.navbar-dark .navbar-toggler .icon-bar {
-    background-color: white;
-}
-.navbar-dark .navbar-toggle:hover, .navbar-dark .navbar-toggle:focus {
-    background-color: #2559a7;
-}
+/*.navbar-dark, .navbar-static-top {*/
+/*    background-color: #424649;*/
+/*    border: 0px;*/
+/*}*/
+/*a.navbar-brand {*/
+/*    color: white !important;*/
+/*    font-size: 19px !important;*/
+/*}*/
+/*.navbar-dark .navbar-nav>.active>a, .navbar-dark .navbar-nav>.active>a:hover, .navbar-dark .navbar-nav>.active>a:focus {*/
+/*    background-color: transparent;*/
+/*    color: white;*/
+/*}*/
+/*.navbar-nav>li.active>a {*/
+/*    color: white !important;*/
+/*}*/
+/*.navbar-nav>li>a:hover {*/
+/*    background-color: #2559a7 !important;*/
+/*    color: white !important;*/
+/*}*/
+/*.navbar-nav>li>a {*/
+/*    color: #c0d3db;*/
+/*}*/
+/*.navbar-dark .navbar-toggler .icon-bar {*/
+/*    background-color: white;*/
+/*}*/
+/*.navbar-dark .navbar-toggle:hover, .navbar-dark .navbar-toggle:focus {*/
+/*    background-color: #2559a7;*/
+/*}*/
 
-.navbar-toggler {
-    position: relative;
-    float: right;
-    padding: 9px 10px;
-    margin-top: 8px;
-    margin-right: 15px;
-    margin-bottom: 8px;
-    background-color: transparent;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
+/*.navbar-toggler {*/
+/*    position: relative;*/
+/*    float: right;*/
+/*    padding: 9px 10px;*/
+/*    margin-top: 8px;*/
+/*    margin-right: 15px;*/
+/*    margin-bottom: 8px;*/
+/*    background-color: transparent;*/
+/*    background-image: none;*/
+/*    border: 1px solid transparent;*/
+/*    border-radius: 4px;*/
+/*}*/
 
 .nav .dropdown a.dropdown-toggle {
     padding-top: 25px;
@@ -103,9 +103,9 @@ a.navbar-brand {
         display: none;
     }
 
-    .navbar {
-        padding-right: 0px;
-    }
+    /*.navbar {*/
+    /*    padding-right: 0px;*/
+    /*}*/
 }
 
 #fork-me{

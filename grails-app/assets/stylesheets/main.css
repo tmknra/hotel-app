@@ -242,7 +242,8 @@ label {
 
 input, select, textarea {
     background-color: #fcfcfc;
-    border: 1px solid #cccccc;
+    border: 1px solid #bdb7b7;
+    border-radius: 5%;
     font-size: 1em;
     padding: 0.2em 0.4em;
 }
@@ -270,7 +271,7 @@ input[type=checkbox], input[type=radio] {
 
 input:focus, select:focus, textarea:focus {
     background-color: #ffffff;
-    border: 1px solid #eeeeee;
+    border: 2px solid #8191e0;
     outline: 0;
     -moz-box-shadow: 0 0 0.5em #ffffff;
     -webkit-box-shadow: 0 0 0.5em #ffffff;
@@ -389,10 +390,10 @@ input:invalid:focus, select:invalid:focus, textarea:invalid:focus {
 /* TABLES */
 
 table {
-    border-top: 1px solid #DFDFDF;
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 1em;
+    border: 1px solid #e5d7d7;
+    border-bottom: 0px;
+    width: 80%;
+    margin: 2% auto 1em;
 }
 
 tr {
@@ -410,7 +411,7 @@ tr>td:last-child, tr>th:last-child {
 td, th {
     line-height: 1.5em;
     padding: 0.5em 0.6em;
-    text-align: left;
+    text-align: center;
     vertical-align: top;
 }
 

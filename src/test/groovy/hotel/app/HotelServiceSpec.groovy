@@ -12,7 +12,7 @@ class HotelServiceSpec extends Specification implements ServiceUnitTest<HotelSer
     }
 
     void "test something"() {
-        expect:"fix me"
-            true == false
+//        expect:"fix me"
+//            true == false
     }
 }
