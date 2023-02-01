@@ -20,7 +20,6 @@
 
 <div class="hotel-list">
     <g:form class="filter" controller="country" action="index" params="${[offset ?: 0, max ?: 10]}" method="get">
-%{--        <label>Choose from list:<g:select name="country" from="${Country.list().name}" noSelection="['': 'Any']"/></label>--}%
         <label>Enter country name: <g:field type="text" name="searchInput" placeholder="Search..."/></label>
         <g:submitButton name="Search"/>
     </g:form>
