@@ -1,5 +1,6 @@
 body {
-    margin: 0;
+    min-width: 1080px;
+    margin: 0 auto;
     padding: 0;
 }
 
@@ -23,7 +24,7 @@ body {
     color: black;
 }
 
-.filter {
+.filterForm {
     display: inline-block;
     position: relative;
     margin-top: 15%;
@@ -85,7 +86,7 @@ th, td {
     width: 80%
 }
 
-.newEntity {
+.newEntityCreation {
     margin: 0 auto;
     width: 320px;
     float: right;

@@ -30,5 +30,5 @@
 </table>
 
 <div class="pagination">
-    <g:paginate total="${hotelTotal}" controller="hotel" action="" params="${params}"/>
+    <g:paginate total="${hotelTotalCount}" controller="hotel" action="" params="${params}"/>
 </div>

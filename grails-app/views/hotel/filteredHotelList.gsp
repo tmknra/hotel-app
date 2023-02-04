@@ -7,7 +7,7 @@
     </thead>
     <tbody>
     <g:if test="${hotelList.size() != 0}">
-        <span>Found ${hotelTotal} hotels</span>
+        <span>Found ${hotelTotalCount} hotels</span>
         <g:each in="${hotelList}" var="hotel">
             <tr>
                 <td>${hotel.rating}</td>
@@ -29,5 +29,5 @@
 </table>
 
 <div class="pagination">
-    <g:paginate total="${hotelTotal}" controller="hotel" action="" params="${params}"/>
+    <g:paginate total="${hotelTotalCount}" controller="hotel" action="" params="${params}"/>
 </div>

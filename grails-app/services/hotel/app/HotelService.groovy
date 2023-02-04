@@ -23,6 +23,10 @@ class HotelService {
         hotel
     }
 
+    Hotel save(Hotel hotel){
+        hotel.save()
+    }
+
     Hotel update(Hotel hotel) {
         def save = hotel.save()
         return save

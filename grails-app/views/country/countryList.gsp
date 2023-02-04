@@ -26,5 +26,5 @@
 </table>
 
 <div class="pagination">
-    <g:paginate total="${countryTotal}" controller="country" action="" params="${params}"/>
+    <g:paginate total="${countryTotalCount}" controller="country" action="" params="${params}"/>
 </div>

@@ -12,42 +12,40 @@ class CountryController {
     def index() {
         params.max = params?.max ?: 10
         params.offset = params?.offset ?: 0
-        List<Country> countries
-        Integer countryTotal;
-        if (params.searchInput == null) {
-            countries = Country.list(params)
-            countryTotal = Country.count
+        List<Country> resultCountryList
+        Integer countryTotalCount
+
+        if (params.entityPatternSearchInput.toString().isEmpty() || params.entityPatternSearchInput==null) {
+            resultCountryList = Country.list(offset: params.offset, max: params.max)
+            countryTotalCount = Country.count
         } else {
-            def c = Country.createCriteria()
-            String pattern = '%'+ params.searchInput+'%'
+            def countryCriteria = Country.createCriteria()
+            String countryNameSearchPattern = "\\.{0,}(?i)" + params.entityPatternSearchInput + "\\.{0,}"
 
-            countries = c.list (params) {
-                like ('name', pattern)
+            resultCountryList = countryCriteria.list(params) {
+                rlike('name', countryNameSearchPattern)
             } as List<Country>
 
-            def list = Country.withCriteria {
-                like ('name', pattern)
-            } as List<Country>
-
-            countryTotal = list.size()
+            countryTotalCount = (Country.withCriteria {
+                rlike('name', countryNameSearchPattern)
+            } as List<Country>).size()
         }
         render view: 'index',
                 model:
                         [
-                                countryList : countries,
-                                countryTotal: countryTotal,
-                                max         : params.max,
-                                offset      : params.offset
+                                countryList      : resultCountryList,
+                                countryTotalCount: countryTotalCount,
+                                max              : params.max,
+                                offset           : params.offset
                         ]
     }
-
 
     def show(Long id) {
         def get = Country.get(id)
         respond get, model: 'show'
     }
 
-    def saveNewCountry() {
+    def createNewCountry() {
         countryService.save(params)
         redirect action: 'index'
     }

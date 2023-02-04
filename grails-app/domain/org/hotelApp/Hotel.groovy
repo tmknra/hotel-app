@@ -1,7 +1,8 @@
 package org.hotelApp
 
-import grails.rest.Link
+import lombok.Data
 
+@Data
 class Hotel {
 
     String name
@@ -21,4 +22,5 @@ class Hotel {
     String toString(){
         name + " " + rating + " " + siteUrl + " " + country.name
     }
+
 }

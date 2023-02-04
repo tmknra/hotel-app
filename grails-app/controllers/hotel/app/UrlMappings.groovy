@@ -12,6 +12,7 @@ class UrlMappings {
         "/home" redirect: "/hotel"
 
         "/hotel"(controller: 'hotel')
+
         "/country"(controller: 'country')
 
         "500"(view:'/error')

@@ -1,10 +1,7 @@
 package hotel.app
 
-import grails.gorm.transactions.Transactional
 import org.hotelApp.Country
 import org.hotelApp.Hotel
-
-import java.util.stream.Collectors
 
 class HotelController {
 
@@ -15,42 +12,48 @@ class HotelController {
     def index() {
         params.max = params?.max ?: 10
         params.offset = params?.offset ?: 0
-        List<Hotel> hotelList
-        def hotelTotal
-        if (params.searchInput == null) {
-            hotelList = Hotel.list(params)
-            hotelTotal = Hotel.count
-        } else {
-            def c = Hotel.createCriteria()
+        def countryNameList = Country.list().name
+        List<Hotel> resultHotelList
+        def hotelTotalCount
 
-            Country country = Country.findByName(params.country as String)
-            String string = params.searchInput
-            hotelList = (c.list(params as Map) {
-                eq('country', country)
+        if (params.entityPatternSearchInput == null && params.country==null) {
+            resultHotelList = Hotel.list(params)
+            hotelTotalCount = Hotel.count
+        } else {
+            def hotelCriteria = Hotel.createCriteria()
+            Country targetCountry = Country.findByName(params.country as String)
+            String hotelNameSearchPattern = "\\.{0,}(?i)" + params.entityPatternSearchInput + "\\.{0,}";
+            /*
+                Не получилось найти методы firstResult() и maxResults(). Вероятно, дело в версии gorm, как и в ситуации
+                ниже. Перепробовал возможные версии, несколько раз пересобирал билд целиком,
+                но данных методов в классе Criteria нет. Возможно, что-то не так делаю.
+                Могу только явно передать параметры в метод list(), что работает корректно - из базы возвращается список,
+                ограниченный по количеству.
+            * */
+            resultHotelList = hotelCriteria.list(offset: params.offset, max: params.max) {
+                if (targetCountry != null) {
+                    eq('country', targetCountry)
+                }
+                rlike('name', hotelNameSearchPattern)
                 order('rating', 'desc')
                 order('name', 'asc')
-                /*
-                     Не подхватывает метод eq(String propertyName, Object propertyValue, [ignoreCase: true/false]),
-                     не смог разобраться в причине. В используемой версии согласно документации все должно работать.
-                     Отфильтровал значения ниже через стримы.
-                 * */
-            } as List<Hotel>)
-                    .stream()
-                    .filter { hotel -> hotel.name.toLowerCase().contains(string) }
-                    .collect(Collectors.toList())
-
-            def list = Hotel.withCriteria {
-                like('country', country)
             } as List<Hotel>
-            hotelTotal = list.size()
+
+            hotelTotalCount = (Hotel.withCriteria() {
+                if (targetCountry != null) {
+                    eq('country', targetCountry)
+                }
+                rlike('name', hotelNameSearchPattern)
+            } as List<Hotel>).size()
         }
         render view: 'index',
                 model:
                         [
-                                hotelList : hotelList,
-                                hotelTotal: hotelTotal,
-                                max       : params.max,
-                                offset    : params.offset
+                                countryNameList: countryNameList,
+                                hotelList      : resultHotelList,
+                                hotelTotalCount: hotelTotalCount,
+                                max            : params.max,
+                                offset         : params.offset
                         ]
     }
 
@@ -59,9 +62,22 @@ class HotelController {
         respond get, model: 'show'
     }
 
-    def saveNewHotel() {
-        hotelService.save(params)
-        redirect action: 'index'
+    def createNewHotel() {
+        Hotel hotel;
+        if (!(hotel = new Hotel(
+                name: params.name,
+                rating: params.rating,
+                siteUrl: params.site,
+                country: Country.findByName(params.country)))
+                .validate()) {
+            //todo need messages customization
+            flash.error = message(error: 'Invalidated')
+            println flash
+        } else {
+            hotelService.save(hotel)
+            flash.message = message(message: 'Hotel created')
+        }
+        redirect view: 'index'
     }
 
     def edit(Hotel hotel) {
@@ -69,8 +85,14 @@ class HotelController {
     }
 
     def update(Hotel hotel) {
-        save(hotel)
-        redirect action: 'index'
+        if (!hotel.validate()) {
+            flash.error = message(error: 'Invalidated')
+
+        } else {
+            hotelService.update(hotel)
+            flash.message = message(message: 'Hotel updated')
+        }
+        redirect action: 'show', id: hotel.getId()
     }
 
     def delete(Long id) {
@@ -79,22 +101,9 @@ class HotelController {
             return
         }
         hotelService.delete(id)
+        flash.message = message(message: 'Hotel successfully deleted')
         redirect action: 'index'
     }
-
-    @Transactional
-    def save(Hotel hotel) {
-        if (hotel == null ) {
-            flash.message = "Error"
-            notFound()
-            return
-        }
-        if (hotel.hasErrors()) {
-            respond hotel.errors, view: 'index'
-        }
-        hotel.save flush: true
-    }
-
 
     protected void notFound() {
         request.withFormat {
