@@ -12,11 +12,12 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <a class="active" href="/hotel">Hotels</a>
-        <a href="../country">Countries</a>
-    </div>
-    <g:layoutBody/>
-    <div class="footer" role="contentinfo"></div>
+<ul class="navbar">
+    <li><a id="hotels" class="active" href="/hotel">HOTELS</a></li>
+    <li><a id="countries" href="/country">COUNTRIES</a></li>
+</ul>
+
+<g:layoutBody/>
+<div class="footer" role="contentinfo"></div>
 </body>
 </html>

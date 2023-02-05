@@ -16,15 +16,14 @@ class CountryService {
         country
     }
 
-    Country save(GrailsParameterMap params) {
-        def country = new Country(params)
+    Country save(Country country){
         def save = country.save()
         save
     }
 
     Country update(Country country) {
         def save = country.save()
-        return save
+        save
     }
 
     void delete(Long id) {

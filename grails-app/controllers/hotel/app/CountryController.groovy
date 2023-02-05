@@ -2,6 +2,7 @@ package hotel.app
 
 import grails.gorm.transactions.Transactional
 import org.hotelApp.Country
+import org.hotelApp.Hotel
 
 class CountryController {
 
@@ -15,7 +16,7 @@ class CountryController {
         List<Country> resultCountryList
         Integer countryTotalCount
 
-        if (params.entityPatternSearchInput.toString().isEmpty() || params.entityPatternSearchInput==null) {
+        if (params.entityPatternSearchInput.toString().isEmpty() || params.entityPatternSearchInput == null) {
             resultCountryList = Country.list(offset: params.offset, max: params.max)
             countryTotalCount = Country.count
         } else {
@@ -46,8 +47,18 @@ class CountryController {
     }
 
     def createNewCountry() {
-        countryService.save(params)
-        redirect action: 'index'
+        Country country;
+        if (!(country = new Country(
+                name: params.name,
+                capital: params.capital))
+                .validate()) {
+            flash.error = message(error: 'Invalidated')
+        } else {
+            countryService.save(country)
+            flash.message = message(message: 'Hotel created')
+        }
+        flash.message = message(message: "Country created")
+        redirect view: 'index'
     }
 
     def edit(Country country) {
@@ -56,7 +67,14 @@ class CountryController {
 
 
     def update(Country country) {
-        save(country)
+        if (!country.validate()) {
+            flash.error = message(error: 'Invalidated')
+
+        } else {
+            countryService.update(country)
+            flash.message = message(message: 'Country updated')
+        }
+        redirect action: 'show', id: country.getId()
     }
 
     def delete(Long id) {
@@ -65,6 +83,7 @@ class CountryController {
             return
         }
         countryService.delete(id)
+        flash.message = message(message: "Country successfully deleted")
         redirect action: 'index'
     }
 
