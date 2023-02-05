@@ -1,5 +1,5 @@
 <%@ page import="org.hotelApp.Hotel" %>
-<table id="hotelTable">
+<table id="hotelTable" class="contentTable">
     <thead>
     <g:sortableColumn property="name" title="Hotel" titleKey="hotel.name"/>
     <g:sortableColumn property="country" title="Country" titleKey="hotel.country.name"/>
@@ -10,7 +10,7 @@
     <g:each in="${hotelList}" var="hotel">
         <tr>
             <td>
-                <a href="hotel/show/${hotel.id}" target="_blank">${hotel.name}</a>
+                <a href="hotel/show/${hotel.id}">${hotel.name}</a>
             </td>
             <td>
                 <a href="country/show/${hotel.country.id}" target="_blank">${hotel.country.name}</a>

@@ -12,16 +12,22 @@ class HotelController {
     def index() {
         params.max = params?.max ?: 10
         params.offset = params?.offset ?: 0
-        def countryNameList = Country.list().name
         List<Hotel> resultHotelList
+        def countryNameList = Country.list().name
         def hotelTotalCount
-
-        if (params.entityPatternSearchInput == null && params.country==null) {
+        String providedCountry;
+        if (params.entityPatternSearchInput == null && params.country == null) {
             resultHotelList = Hotel.list(params)
             hotelTotalCount = Hotel.count
+            providedCountry = "Any"
         } else {
             def hotelCriteria = Hotel.createCriteria()
-            Country targetCountry = Country.findByName(params.country as String)
+            Country targetCountry = Country.findByName(providedCountry)
+            if (targetCountry == null) {
+                providedCountry = "Any"
+            } else {
+                providedCountry = params.country as String
+            }
             String hotelNameSearchPattern = "\\.{0,}(?i)" + params.entityPatternSearchInput + "\\.{0,}";
             /*
                 Не получилось найти методы firstResult() и maxResults(). Вероятно, дело в версии gorm, как и в ситуации
@@ -46,14 +52,17 @@ class HotelController {
                 rlike('name', hotelNameSearchPattern)
             } as List<Hotel>).size()
         }
+        println params
         render view: 'index',
                 model:
                         [
-                                countryNameList: countryNameList,
-                                hotelList      : resultHotelList,
-                                hotelTotalCount: hotelTotalCount,
-                                max            : params.max,
-                                offset         : params.offset
+                                countryNameList         : countryNameList,
+                                hotelList               : resultHotelList,
+                                providedCountry         : providedCountry,
+                                entityPatternSearchInput: params.entityPatternSearchInput,
+                                hotelTotalCount         : hotelTotalCount,
+                                max                     : params.max,
+                                offset                  : params.offset
                         ]
     }
 

@@ -1,5 +1,5 @@
 <%@ page import="org.hotelApp.Hotel" %>
-<table id="hotelTable">
+<table id="hotelTable" class="contentTable">
     <thead>
     <g:sortableColumn property="rating" title="Stars" titleKey="hotel.rating"/>
     <g:sortableColumn property="name" title="Hotel" titleKey="hotel.name"/>
@@ -7,12 +7,12 @@
     </thead>
     <tbody>
     <g:if test="${hotelList.size() != 0}">
-        <span>Found ${hotelTotalCount} hotels</span>
+        <div class="foundedHotelsCount">Found ${hotelTotalCount} hotels with properties: Country - ${providedCountry} / Hotels like -  ${entityPatternSearchInput}</div>
         <g:each in="${hotelList}" var="hotel">
             <tr>
                 <td>${hotel.rating}</td>
                 <td>
-                    <a href="hotel/show/${hotel.id}" target="_blank">${hotel.name}</a>
+                    <a href="hotel/show/${hotel.id}">${hotel.name}</a>
                 </td>
                 <td>
                     <a href="${hotel.siteUrl}" content="${hotel.siteUrl}" target="_blank">link</a>

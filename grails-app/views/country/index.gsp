@@ -8,14 +8,20 @@
 </head>
 
 <body>
-<g:form class="newEntityCreation" controller="country" action="createNewCountry" method="post">
+<div class="messageOnCreation">
+    <h3>
+        <g:message error="${flash.error}" message="${flash.message}"/>
+    </h3>
+</div>
+<g:form class="newEntityCreationForm" controller="country" action="createNewCountry" method="post">
+    <h2>Add new country</h2>
     <f:field property="name" label="Name" required="true">
         <g:textField name="name" required="true"/>
     </f:field>
     <f:field property="capital" label="Capital" required="true">
         <g:textField name="capital" required="true"/>
     </f:field>
-    <g:submitButton name="New Country" class="save"/>
+    <g:submitButton name="New Country" class="createButton"/>
 </g:form>
 
 <div class="hotel-list">

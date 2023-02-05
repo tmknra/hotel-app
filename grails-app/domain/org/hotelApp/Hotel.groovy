@@ -1,8 +1,5 @@
 package org.hotelApp
 
-import lombok.Data
-
-@Data
 class Hotel {
 
     String name
