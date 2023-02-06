@@ -7,7 +7,7 @@
     </thead>
     <tbody>
     <g:if test="${hotelList.size() != 0}">
-        <div class="foundedHotelsCount">Found ${hotelTotalCount} hotels</div>
+        <div class="foundedHotelsCount">Found hotels: ${hotelTotalCount}</div>
         <g:each in="${hotelList}" var="hotel">
             <tr>
                 <td>${hotel.rating}</td>
