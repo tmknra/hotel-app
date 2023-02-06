@@ -23,7 +23,7 @@ class CountryController {
             def countryCriteria = Country.createCriteria()
             String countryNameSearchPattern = "\\.{0,}(?i)" + params.entityPatternSearchInput + "\\.{0,}"
 
-            resultCountryList = countryCriteria.list(params) {
+            resultCountryList = countryCriteria.list(offset: params.offset, max: params.max) {
                 rlike('name', countryNameSearchPattern)
             } as List<Country>
 
