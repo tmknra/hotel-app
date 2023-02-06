@@ -7,7 +7,7 @@
     </thead>
     <tbody>
     <g:if test="${hotelList.size() != 0}">
-        <div class="foundedHotelsCount">Found ${hotelTotalCount} hotels with properties: Country - ${providedCountry} / Hotels like -  ${entityPatternSearchInput}</div>
+        <div class="foundedHotelsCount">Found ${hotelTotalCount} hotels</div>
         <g:each in="${hotelList}" var="hotel">
             <tr>
                 <td>${hotel.rating}</td>

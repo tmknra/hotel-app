@@ -10,21 +10,12 @@
 <h1><g:message code="default.edit.label" args="[entityName]"/></h1>
 
 <div id="edit-hotel" class="entityContentShow" role="main">
-    <g:if test="${flash.message}">
-        <div class="message" role="status">${flash.message}</div>
-    </g:if>
-    <g:hasErrors bean="${this.hotel}">
-        <ul class="errors" role="alert">
-            <g:eachError bean="${this.hotel}" var="error">
-                <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message
-                        error="${error}"/></li>
-            </g:eachError>
-        </ul>
-    </g:hasErrors>
     <g:form class="entityUpdateForm" resource="${this.hotel}" method="PUT">
         <g:hiddenField name="version" value="${this.hotel?.version}"/>
         <fieldset class="onEntityActions">
-            <f:all bean="hotel"/>
+            <f:all bean="hotel" required="true" except="siteUrl"/>
+            <f:field bean="hotel" property="siteUrl" pattern="(http[s]?:\\/\\/www\\.[\\w]+\\.[a-z]{2,3})"/>
+            <span class="hotelSiteUrlPattern">Example: http[s]://www.hotel.org</span>
         </fieldset>
         <fieldset class="buttons">
             <input class="save" type="submit"

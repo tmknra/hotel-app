@@ -14,15 +14,6 @@ class HotelService {
         hotel
     }
 
-    Hotel save(GrailsParameterMap params) {
-        def countryName = params.get('country')
-        Country country = Country.findByName(countryName as String)
-
-        def hotel = new Hotel(name: params.name, rating: params.rating, siteUrl: params.site, country: country)
-        hotel.save()
-        hotel
-    }
-
     Hotel save(Hotel hotel){
         hotel.save()
     }

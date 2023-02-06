@@ -12,22 +12,17 @@ class HotelController {
     def index() {
         params.max = params?.max ?: 10
         params.offset = params?.offset ?: 0
+
         List<Hotel> resultHotelList
         def countryNameList = Country.list().name
         def hotelTotalCount
-        String providedCountry;
+
         if (params.entityPatternSearchInput == null && params.country == null) {
             resultHotelList = Hotel.list(params)
             hotelTotalCount = Hotel.count
-            providedCountry = "Any"
         } else {
             def hotelCriteria = Hotel.createCriteria()
-            Country targetCountry = Country.findByName(providedCountry)
-            if (targetCountry == null) {
-                providedCountry = "Any"
-            } else {
-                providedCountry = params.country as String
-            }
+            Country targetCountry = Country.findByName(params.country)
             String hotelNameSearchPattern = "\\.{0,}(?i)" + params.entityPatternSearchInput + "\\.{0,}";
             /*
                 Не получилось найти методы firstResult() и maxResults(). Вероятно, дело в версии gorm, как и в ситуации
@@ -52,13 +47,11 @@ class HotelController {
                 rlike('name', hotelNameSearchPattern)
             } as List<Hotel>).size()
         }
-        println params
         render view: 'index',
                 model:
                         [
                                 countryNameList         : countryNameList,
                                 hotelList               : resultHotelList,
-                                providedCountry         : providedCountry,
                                 entityPatternSearchInput: params.entityPatternSearchInput,
                                 hotelTotalCount         : hotelTotalCount,
                                 max                     : params.max,
@@ -79,9 +72,7 @@ class HotelController {
                 siteUrl: params.site,
                 country: Country.findByName(params.country)))
                 .validate()) {
-            //todo need messages customization
-            flash.error = message(error: 'Invalidated')
-            println flash
+            flash.error = message(error: 'Hotel ' + hotel.name + ' already exists in ' + hotel.country.name)
         } else {
             hotelService.save(hotel)
             flash.message = message(message: 'Hotel created')
@@ -95,8 +86,7 @@ class HotelController {
 
     def update(Hotel hotel) {
         if (!hotel.validate()) {
-            flash.error = message(error: 'Invalidated')
-
+            flash.error = message(error: 'Hotel ' + hotel.name + ' already exists in ' + hotel.country.name)
         } else {
             hotelService.update(hotel)
             flash.message = message(message: 'Hotel updated')

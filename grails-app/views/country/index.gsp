@@ -26,7 +26,14 @@
 
 <div class="hotel-list">
     <g:form class="filterForm" controller="country" action="index" params="${[offset ?: 0, max ?: 10]}" method="get">
-        <label>Enter country name: <g:field type="text" name="entityPatternSearchInput" placeholder="Search..."/></label>
+        <label>Enter country name:
+        <g:if test="${params.entityPatternSearchInput!=null}">
+            <g:field type="text" name="entityPatternSearchInput" value="${params.entityPatternSearchInput}"/>
+        </g:if>
+        <g:else>
+            <g:field type="text" name="entityPatternSearchInput" placeholder="Search..."/>
+        </g:else>
+        </label>
         <g:submitButton name="Search"/>
     </g:form>
     <g:include view="country/countryList.gsp"/>

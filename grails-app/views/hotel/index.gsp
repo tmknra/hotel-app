@@ -25,16 +25,31 @@
         <g:select from="12345" name="rating" noSelection="['': '']" required="true"/>
     </f:field>
     <f:field property="site" label="Site" required="false">
-        <g:textField name="site" pattern="(http[s]?:\\/\\/www\\.[\\w]+\\.[a-z]{2,3})"
-                     title="Applied pattern [http[s]://www.][domainName.][topLevelDomainName]"/>
+        <g:textField class="hotelSiteUrlInput" name="site" pattern="(http[s]?:\\/\\/www\\.[\\w]+\\.[a-z]{2,3})"
+                     onclick="this.title='Example: http[s]://www.hotel.org'"/>
     </f:field>
     <g:submitButton name="New Hotel" class="createButton"/>
 </g:form>
 
 <div class="entityList">
     <g:form class="filterForm" controller="hotel" action="index" params="${[offset ?: 0, max ?: 10]}" method="get">
-        <label>Country:<g:select name="country" from="${countryNameList}" noSelection="['': 'Any']"/></label>
-        <label>Hotel: <g:field type="text" name="entityPatternSearchInput" placeholder="Search..."/></label>
+        <label>Country:
+        <g:if test="${params.country != null}">
+            <g:select name="country" from="${countryNameList}" value="${params.country}"/>
+        </g:if>
+        <g:else>
+            <g:select name="country" from="${countryNameList}" noSelection="['': 'Any']"/>
+        </g:else>
+        </label>
+        <label>Hotel:
+        <g:if test="${params.entityPatternSearchInput != null}">
+            <g:field type="text" name="entityPatternSearchInput" value="${params.entityPatternSearchInput}"/>
+        </g:if>
+        <g:else>
+            <g:field type="text" name="entityPatternSearchInput" placeholder="Search..."/>
+        </g:else>
+
+        </label>
         <g:submitButton name="Search"/>
     </g:form>
     <g:if test="${(params.entityPatternSearchInput.toString().isEmpty() || params.entityPatternSearchInput == null)

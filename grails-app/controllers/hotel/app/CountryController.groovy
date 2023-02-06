@@ -52,12 +52,11 @@ class CountryController {
                 name: params.name,
                 capital: params.capital))
                 .validate()) {
-            flash.error = message(error: 'Invalidated')
+            flash.error = message(error: "Invalid name or capital")
         } else {
             countryService.save(country)
-            flash.message = message(message: 'Hotel created')
+            flash.message = message(message: "Country created")
         }
-        flash.message = message(message: "Country created")
         redirect view: 'index'
     }
 
@@ -68,11 +67,10 @@ class CountryController {
 
     def update(Country country) {
         if (!country.validate()) {
-            flash.error = message(error: 'Invalidated')
-
+            flash.error = message(error: "Invalid name or capital")
         } else {
             countryService.update(country)
-            flash.message = message(message: 'Country updated')
+            flash.message = message(message: "Country updated")
         }
         redirect action: 'show', id: country.getId()
     }
@@ -84,19 +82,6 @@ class CountryController {
         }
         countryService.delete(id)
         flash.message = message(message: "Country successfully deleted")
-        redirect action: 'index'
-    }
-
-    @Transactional
-    def save(Country country) {
-        if (country == null) {
-            notFound()
-            return
-        }
-        if (country.hasErrors()) {
-            respond country.errors, view: 'create'
-        }
-        country.save flush: true
         redirect action: 'index'
     }
 
