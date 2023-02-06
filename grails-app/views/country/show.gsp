@@ -10,13 +10,11 @@
 <h1><g:message code="default.show.label" args="[entityName]"/></h1>
 
 <div id="show-country" class="entityContentShow" role="main">
-    <g:if test="${flash.message}">
         <div class="showMessage" role="status">
             <h3>
                 <g:message message="${flash.message}" error="${flash.error}"/>
             </h3>
         </div>
-    </g:if>
     <f:display bean="country"/>
     <g:form class="onEntityActions" resource="${this.country}" method="DELETE">
         <fieldset class="buttons">

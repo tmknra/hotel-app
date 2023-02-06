@@ -10,22 +10,9 @@
 <h1><g:message code="default.edit.label" args="[entityName]"/></h1>
 
 <div id="edit-country" class="entityContentShow" role="main">
-    <g:hasErrors bean="${this.country}">
-        <ul class="errors" role="alert">
-            <g:eachError bean="${this.country}" var="error">
-                <li
-                    <g:if test="${error in org.springframework.validation.FieldError}">
-                        data-field-id="${error.field}"
-                    </g:if>><g:message
-                        error="${error}"/>
-                </li>
-            </g:eachError>
-        </ul>
-    </g:hasErrors>
     <g:form class="entityUpdateForm" resource="${this.country}" method="PUT">
-        <g:hiddenField name="version" value="${this.country?.version}"/>
         <fieldset class="onEntityActions">
-            <f:all bean="country"/>
+            <f:all bean="country" required="true"/>
         </fieldset>
         <fieldset class="buttons">
             <input class="save" type="submit"
